@@ -1,19 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { MetaMaskProvider } from "@metamask/sdk-react";
+import { WebAppProvider } from '@vkruglikov/react-telegram-web-app';
+import App from "./App";
+
+
+const sdkOptions = {
+    dappMetadata: {
+        name: "Moolah",
+        url: window.location.href,
+    },
+    useDeeplink: true,
+    openDeeplink: (url: string) => window.open(url, '_system')
+}
+
+const tgWebAppOptions = {
+    smoothButtonsTransition: true,
+}
+
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    document.getElementById('root') as HTMLElement
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+root.render(
+    <React.StrictMode>
+        <WebAppProvider options={tgWebAppOptions}>
+            <MetaMaskProvider debug={false} sdkOptions={sdkOptions}>
+                <App/>
+            </MetaMaskProvider>
+        </WebAppProvider>
+    </React.StrictMode>
+);
+
