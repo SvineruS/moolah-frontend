@@ -8,7 +8,7 @@ import Game from "./game/Game";
 const airdaoTestnet = {
     chainId: '0x5618',
     chainName: 'AirDAO Testnet',
-    blockExplorerUrls: ['https://testnet.airdao.io/explorer/'],
+    blockExplorerUrls: ['https://enhance-events.db719thmlw0ad.amplifyapp.com/'],
     nativeCurrency: { symbol: 'AMB', decimals: 18 },
     rpcUrls: ['https://network.ambrosus-test.io/'],
 }
@@ -52,7 +52,7 @@ export default function App() {
         const transactionParameters = {
             to: '0x0000000000000000000000000000000000000000', //
             from: provider?.getSelectedAddress(),
-            value: '0x5AF3107A4000',
+            value: '0',
         };
 
         try {
@@ -99,7 +99,7 @@ export default function App() {
                 <button onClick={disconnect}> Disconnect</button>
                 <button onClick={sendTransaction}> Send transaction</button>
                 <button onClick={() => changeNetwork('0x5618')}> Switch to AirDao Testnet</button>
-                {/*<button onClick={addNetwork}> Add AirDao Testnet</button>*/}
+                <button onClick={addNetwork}> Add AirDao Testnet</button>
             </div>
             <hr/>
             <div>
