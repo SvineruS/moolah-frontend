@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useInitData } from "@vkruglikov/react-telegram-web-app";
-
 import { useSDK } from "@metamask/sdk-react";
-import Game from "./game/Game";
+import useAuth from "../hooks/auth.ts";
 
 
 const airdaoTestnet = {
@@ -14,18 +13,12 @@ const airdaoTestnet = {
 }
 
 
-export default function App() {
+export default function Auth() {
+    const {auth, setAuth} = useAuth();
     const [initDataUnsafe, initData] = useInitData()
     const { sdk, connected, connecting, provider, chainId, account, balance } = useSDK();
 
     const [fakeAuth, setFakeAuth] = useState<string>("");
-    const [auth, setAuth_] = useState<string | null>(() => localStorage.getItem('auth'));
-
-    const setAuth = (auth: string | null) => {
-        setAuth_(auth);
-        if (auth) localStorage.setItem('auth', auth);
-        else localStorage.removeItem('auth');
-    }
 
     const connect = async () => {
         try {
@@ -118,14 +111,10 @@ export default function App() {
                 <button onClick={() => setAuth(fakeAuth)}>Fake sign in</button>
                 <input value={fakeAuth} onChange={(e) => setFakeAuth(e.target.value)} placeholder={"fake auth json"}/>
             </div>
-
-            <hr/>
-            <h2>Game</h2>
-            {auth ? <Game auth={auth}/> : <div>Sign in to play</div>}
         </div>
     );
 
-};
+}
 
 
 function formatMessageForWeb3Auth(tgId: number) {
