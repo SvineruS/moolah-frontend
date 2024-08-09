@@ -22,5 +22,55 @@ export const tgWebAppOptions = {
     smoothButtonsTransition: true,
 }
 
+
+const eip712Domain = {
+    chainId: 22040,
+    name: 'Moolah',
+    verifyingContract: '0x93549AD90A3a21941E16987A63D4fF26ccd1EA79',
+    version: '1',
+}
+
+export const eip712Params = {
+    domain: eip712Domain,
+    primaryType: 'Order',
+    types: {
+        EIP712Domain: [
+            { name: 'name', type: 'string' },
+            { name: 'version', type: 'string' },
+            { name: 'chainId', type: 'uint256' },
+            { name: 'verifyingContract', type: 'address' },
+        ],
+        OrderErc20: [
+            { name: "tokenAddress", type: "address" },
+            { name: "amount", type: "uint256" }
+        ],
+        OrderErc721: [
+            { name: "tokenAddress", type: "address" },
+            { name: "tokenId", type: "uint256" }
+        ],
+        OrderErc1155: [
+            { name: "tokenAddress", type: "address" },
+            { name: "tokenId", type: "uint256" },
+            { name: "amount", type: "uint256" }
+        ],
+        OrderItems: [
+            { name: "erc20", type: "OrderErc20[]" },
+            { name: "erc721", type: "OrderErc721[]" },
+            { name: "erc1155", type: "OrderErc1155[]" }
+        ],
+        Order: [
+            { name: "you", type: "address" },
+            { name: "give", type: "OrderItems" },
+            { name: "receive", type: "OrderItems" },
+            { name: "salt", type: "uint256" }
+        ]
+    },
+}
+
+
+// export const backendHttpUrl = "https://www.savagaysmall.pp.ua/";
+export const backendHttpUrl = "http://localhost:8000";
+
+
 // export const backendWsUrl = "wss://www.savagaysmall.pp.ua/ws";
 export const backendWsUrl = "ws://localhost:8000/ws";

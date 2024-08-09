@@ -9,6 +9,7 @@ export default function Root() {
         <>
             <NavLink to="/auth" className={classNames}> Auth </NavLink>
             <NavLink to="/game" className={classNames}> Game </NavLink>
+            <NavLink to="/marketplace" className={classNames}> Marketplace </NavLink>
 
             <Outlet/>
         </>
