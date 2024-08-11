@@ -23,6 +23,11 @@ export const tgWebAppOptions = {
 }
 
 
+export const COW_TOKEN_ADDRESS = "0x0d7A2204fcbEd77d411EB890f0058575d713505b";
+export const MOO_TOKEN_ADDRESS = "0x05C95cbF6D0D946303059893c92d1DFA0Bf9e82b";
+
+export const COW_IMG_URI = "http://localhost:8111/";
+
 const eip712Domain = {
     chainId: 22040,
     name: 'Moolah',

@@ -1,17 +1,24 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Root from "./routes/root.tsx";
-import Auth from "./routes/auth.tsx";
-import Game from "./routes/game.tsx";
-import Marketplace from "./routes/marketplace/Marketplace.tsx";
-import { sdkOptions, tgWebAppOptions } from "./config/config.ts";
+
 import { WebAppProvider } from "@vkruglikov/react-telegram-web-app";
 import { MetaMaskProvider } from '@metamask/sdk-react';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import { sdkOptions, tgWebAppOptions } from "./config/config.ts";
+
+import Root from "./routes/root.tsx";
+import Auth from "./routes/auth.tsx";
+import GameHTML from "./routes/game/game.tsx";
+import Marketplace from "./routes/marketplace/Marketplace.tsx";
 import CreateOrder from "./routes/marketplace/CreateOrder.tsx";
 import ShowOrder from "./routes/marketplace/ShowOrder.tsx";
 import AllOrders from "./routes/marketplace/AllOrders.tsx";
+import Farm from "./routes/game/Farm/Farm.tsx";
+import Inv from "./routes/game/Inventory/Inventory.tsx";
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css'
 
 
 const router = createBrowserRouter([
@@ -25,7 +32,17 @@ const router = createBrowserRouter([
             },
             {
                 path: "game",
-                element: <Game />,
+                element: <GameHTML />,
+                children: [
+                    {
+                        path: "/game/farm",
+                        element: <Farm />,
+                    },
+                    {
+                        path: "/game/inventory/",
+                        element: <Inv/>,
+                    }
+                ]
             },
             {
                 path: "marketplace",

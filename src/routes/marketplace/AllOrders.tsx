@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getOrders } from "../../backend/marketplace.ts";
 import { NavLink } from "react-router-dom";
+import { ShowOrderPreview } from "./components/Order.tsx";
 
 export default function AllOrders() {
     const [orders, setOrders] = useState([])
@@ -11,7 +12,7 @@ export default function AllOrders() {
             const orders = await getOrders();
             setOrders(orders)
         })()
-    })
+    }, [])
 
 
     return (
@@ -28,7 +29,7 @@ export default function AllOrders() {
 function Order({ order }) {
     return <div>
         <h3>Order</h3>
-        <pre>{JSON.stringify(order, undefined, 2)}</pre>
+        <ShowOrderPreview order={order} />
         <NavLink to={`/marketplace/order/${order._id}`}>View</NavLink>
     </div>
 }

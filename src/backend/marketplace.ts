@@ -1,36 +1,16 @@
 import { backendHttpUrl } from "../config/config.ts";
-
-
-export interface Order {
-    creator: string;
-    items: OrderItems;
-    quickBuy?: QuickBuyableOrder;
-    isAuction?: boolean;
-}
-
-export interface AuctionBid {
-    bidder: string;
-    bid: QuickBuyableOrder;
-}
-
-export interface QuickBuyableOrder {
-    items: OrderItems;
-    salt: string;
-    signature: string;
-}
-
-export interface OrderItems {
-    erc20: {tokenAddress: string, amount: number}[];
-    erc721: {tokenAddress: string, tokenId: number}[];
-    erc1155: {tokenAddress: string, tokenId: number, amount: number}[];
-}
-
+import { AuctionBid, Order } from "../types/marketplace.ts";
 
 
 
 export async function submitOrder(order: Order) {
     return await _fetch("/marketplace/submitOrder", { order })
 }
+
+export async function submitBid(auctionId: string, bid: AuctionBid) {
+    return await _fetch("/marketplace/submitBid", { auctionId, bid })
+}
+
 
 export async function getOrders() {
     return await _fetch("/marketplace/getOrders")

@@ -1,11 +1,12 @@
 import { useSDK } from "@metamask/sdk-react";
 import { useState } from "react";
-import { Order, OrderItems, submitOrder } from "../../backend/marketplace.ts";
-import { sign } from "./components/signature.ts";
-import InputOrderItems from "./components/InputOrderItems.tsx";
+import { submitOrder } from "../../backend/marketplace.ts";
+import { generateRandomBytes, sign } from "./components/signature.ts";
+import InputOrderCows, { OrderCow } from "./components/InputOrderCows.tsx";
+import { COW_TOKEN_ADDRESS, MOO_TOKEN_ADDRESS } from "../../config/config.ts";
+import { Order, OrderItems } from "../../types/marketplace.ts";
 
 export type OrderType = "fixed-price" | "auction-quickbuy" | "auction";
-
 
 
 export default function CreateOrder() {
@@ -13,27 +14,28 @@ export default function CreateOrder() {
 
 
     const [orderType, setOrderType] = useState<OrderType>('fixed-price')
-    const [sellOrderItems, setSellOrderItems] = useState<OrderItems>({
-        erc20: [{ tokenAddress: '0x3452aA7E0920446c3aE8812C14A262AEfAbaBeeF', amount: 100 }],
-        erc721: [],
-        erc1155: [],
-    });
-    const [buyOrderItems, setBuyOrderItems] = useState<OrderItems>({
-        erc20: [],
-        erc721: [],
-        erc1155: [],
-    });
-
+    const [orderCows, setOrderCows] = useState<OrderCow[]>([{ tokenId: 1, amount: 100 }]);
+    const [orderPriceMoo, setOrderPriceMoo] = useState<string>("0");
+    const [orderValidUntil, setOrderValidUntil] = useState<number>(Date.now() + 1000 * 60 * 60 * 24);
 
     async function createOrder() {
+        const orderItems: OrderItems = {
+            erc20: [], erc721: [],
+            erc1155: orderCows.map((orderCow) => ({ ...orderCow, tokenAddress: COW_TOKEN_ADDRESS })),
+        };
         const order: Order = {
             creator: account,
-            items: sellOrderItems,
+            items: orderItems,
+            validUntil: orderValidUntil,
             isAuction: orderType == "auction-quickbuy",
         }
         if (orderType === "fixed-price" || orderType == "auction-quickbuy") {
+            const quickBuyItems: OrderItems = {
+                erc20: [{ tokenAddress: MOO_TOKEN_ADDRESS, amount: +orderPriceMoo }],
+                erc721: [], erc1155: [],
+            }
             order.quickBuy = {
-                items: buyOrderItems,
+                items: quickBuyItems,
                 salt: generateRandomBytes(),
                 signature: "",
             }
@@ -42,6 +44,7 @@ export default function CreateOrder() {
                 order.creator, order.items, order.quickBuy.items, order.quickBuy.salt);
         }
 
+        console.log(order)
         const result = await submitOrder(order);
         console.log(result);
         if (result.error)
@@ -62,20 +65,20 @@ export default function CreateOrder() {
 
         <div>
             Select items to sell:
-            <InputOrderItems orderItems={sellOrderItems} setOrderItems={setSellOrderItems}/>
+            <InputOrderCows orderCows={orderCows} setOrderCows={setOrderCows}/>
         </div>
 
         {
             orderType !== 'auction' &&
           <div>
-            Select items to buy:
-            <InputOrderItems orderItems={buyOrderItems} setOrderItems={setBuyOrderItems}/>
+            Select price in MOO:
+            <input value={orderPriceMoo} onChange={(e) => setOrderPriceMoo(e.target.value)}/>
           </div>
         }
 
         <div>
             Valid to:
-            <input type="datetime-local"/>
+            <input type="datetime-local" onChange={(e) => setOrderValidUntil(+e.target.value)}/>
         </div>
 
 
@@ -84,14 +87,3 @@ export default function CreateOrder() {
     </div>)
 }
 
-const generateRandomBytes = () => {
-    const randomBytes = new Uint8Array(32);
-    window.crypto.getRandomValues(randomBytes);
-
-    const toHexString = (byteArray) => {
-        // eslint-disable-next-line
-        // @ts-ignore
-        return Array.from(byteArray, byte => ('0' + byte.toString(16)).slice(-2)).join('');
-    };
-    return "0x" + toHexString(randomBytes);
-};

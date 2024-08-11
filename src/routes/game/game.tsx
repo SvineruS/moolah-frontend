@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
-import useAuth from "../hooks/auth.ts";
-import { backendWsUrl } from "../config/config.ts";
+import useAuth from "../../hooks/auth.ts";
+import { backendWsUrl } from "../../config/config.ts";
+import { Game } from "../../types/game.ts";
+import { NavLink, Outlet } from "react-router-dom";
+import { GameContext } from '../../hooks/gamestate.ts';
 
 
+export default function GameHTML() {
 
-export default function Game() {
     const {auth} = useAuth();
 
-
-    const [message, setMessage] = useState<string>("");
     const [websocket, setWebsocket] = useState<WebSocket | null>(null);
+    const [game, setGame] = useState<Game>(null);
 
     useEffect(() => {
         console.log("use Effect", auth, websocket==null);
@@ -29,9 +31,7 @@ export default function Game() {
             const msg = event.data;
             console.log(msg);
             try {
-                const parsed = JSON.parse(msg);
-                setMessage(JSON.stringify(parsed, undefined, 4));
-
+                setGame(JSON.parse(msg));
             } catch (e) {
                 console.error('Failed to parse message', e);
             }
@@ -50,9 +50,31 @@ export default function Game() {
         };
     }, []);
 
+    if (game == null) {
+        return <div>Loading...</div>
+    }
+
+
+
     return (
         <div>
-            <pre>{message}</pre>
+            <GameContext.Provider value={game}>
+                <Menu/>
+                <Outlet/>
+            </GameContext.Provider>
         </div>
     );
-};
+}
+
+
+function Menu() {
+    const classNames = ({ isActive, isPending }) => isPending ? "pending" : isActive ? "active" : ""
+
+    return <div>
+        <NavLink to="/game/farm" className={classNames}> Farm </NavLink>
+        <NavLink to="/game/inventory" className={classNames}> Inventory </NavLink>
+        <NavLink to="/game/quests" className={classNames}> Quests </NavLink>
+    </div>
+}
+
+

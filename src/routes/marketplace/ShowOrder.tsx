@@ -1,6 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getOrder, Order } from "../../backend/marketplace.ts";
+import { getOrder, submitBid } from "../../backend/marketplace.ts";
+import { ShowOrderPreview } from "./components/Order.tsx";
+import { AuctionBid, Order, OrderItems, OrderWithId } from "../../types/marketplace.ts";
+import { MOO_TOKEN_ADDRESS } from "../../config/config.ts";
+import { generateRandomBytes, sign } from "./components/signature.ts";
+import { useSDK } from "@metamask/sdk-react";
 
 export default function ShowOrder() {
     const { orderId } = useParams();
@@ -18,7 +23,7 @@ export default function ShowOrder() {
     return (
         <div>
             <h2>Order {orderId}</h2>
-            <pre>{JSON.stringify(order, undefined, 2)}</pre>
+            <ShowOrderPreview order={order} />
             {order.quickBuy && <FixedPriceBuy order={order}/>}
             {order.isAuction && <MakeBid order={order}/>}
         </div>
@@ -26,9 +31,38 @@ export default function ShowOrder() {
 }
 
 
-function MakeBid({ order }: {order: Order}) {
+function MakeBid({ order }: {order: OrderWithId}) {
+    const [bidAmount, setBidAmount] = useState("0")
+    const { sdk, provider, account } = useSDK();
+
+    async function makeBid() {
+        const bidItems: OrderItems = {
+            erc20: [{ tokenAddress: MOO_TOKEN_ADDRESS, amount: +bidAmount }],
+            erc721: [], erc1155: [],
+        }
+        const auctionBid: AuctionBid = {
+            bidder: account,
+            bid: {
+                items: bidItems,
+                salt: generateRandomBytes(),
+                signature: "",
+            }
+        }
+        auctionBid.bid.signature = await sign(sdk, provider,
+            auctionBid.bidder, auctionBid.bid.items, order.items, auctionBid.bid.salt);
+
+        const result = await submitBid(order._id, auctionBid);
+        console.log(result);
+        if (result.error)
+            alert(JSON.stringify(result.error));
+
+    }
+
+
     return <div>
         <h3>Make bid</h3>
+        <input placeholder="Bid amount" value={bidAmount} onChange={(e) => setBidAmount(e.target.value)}/>
+        <button onClick={makeBid}>Make bid</button>
     </div>
 }
 
