@@ -1,4 +1,3 @@
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 
 import { WebAppProvider } from "@vkruglikov/react-telegram-web-app";
@@ -68,13 +67,13 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  // <React.StrictMode>
       <WebAppProvider options={tgWebAppOptions}>
           <MetaMaskProvider debug={false} sdkOptions={sdkOptions}>
               <RouterProvider router={router} />
           </MetaMaskProvider>
       </WebAppProvider>
-  </React.StrictMode>,
+  // </React.StrictMode>,
 )
 
 

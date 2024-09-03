@@ -6,12 +6,12 @@ export default function Root() {
     const classNames = ({ isActive, isPending }) => isPending ? "pending" : isActive ? "active" : ""
 
     return (
-        <>
-            <NavLink to="/auth" className={classNames}> Auth </NavLink>
-            <NavLink to="/game/farm" className={classNames}> Game </NavLink>
-            <NavLink to="/marketplace" className={classNames}> Marketplace </NavLink>
-
-            <Outlet/>
-        </>
+      <>
+          <NavLink to="/auth" className={classNames}> Auth </NavLink>
+          <NavLink to="/game/farm" className={classNames}> Game </NavLink>
+          <NavLink to="/marketplace" className={classNames}> Marketplace </NavLink>
+          <hr/>
+          <Outlet/>
+      </>
     );
 }

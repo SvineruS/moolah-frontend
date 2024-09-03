@@ -2,15 +2,7 @@ import { useState } from 'react';
 import { useInitData } from "@vkruglikov/react-telegram-web-app";
 import { useSDK } from "@metamask/sdk-react";
 import useAuth from "../hooks/auth.ts";
-
-
-const airdaoTestnet = {
-    chainId: '0x5618',
-    chainName: 'AirDAO Testnet',
-    blockExplorerUrls: ['https://enhance-events.db719thmlw0ad.amplifyapp.com/'],
-    nativeCurrency: { symbol: 'AMB', decimals: 18 },
-    rpcUrls: ['https://network.ambrosus-test.io/'],
-}
+import { airdaoTestnet } from "../config/config.ts";
 
 
 export default function Auth() {

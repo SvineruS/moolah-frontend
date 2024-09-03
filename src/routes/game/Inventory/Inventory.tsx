@@ -1,15 +1,18 @@
-import { useGame } from "../../../hooks/gamestate.ts";
-import { COW_IMG_URI } from "../../../config/config.ts";
+import { useGame } from "../../../hooks/gameContext.ts";
+import { CowImg } from "../../../components/CowImg.tsx";
 
 function Cow({ cow }) {
     const { constants } = useGame();
 
+    const cowStats = constants.cowStats[cow.id];
     return <div>
-        <img src={`${COW_IMG_URI}${cow.id}.png`} width="100" height="100" alt="cow"/>
+        <CowImg id={cow.id} />
         CowID: {cow.id} <br/>
+        Cow Name: {cowStats.name} <br/>
         Count: {cow.count} <br/>
-        MilkRate: {constants.cowStats[cow.id].milkRate} <br/>
-        BeefRate: {constants.cowStats[cow.id].beefRate}
+        MilkRate: {cowStats.milkRate} <br/>
+        BeefRate: {cowStats.beefRate} <br/>
+        FoodRate: {cowStats.foodRate} <br/>
         <br/>
         <br/>
     </div>;

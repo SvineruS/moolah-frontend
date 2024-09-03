@@ -23,15 +23,16 @@ export const tgWebAppOptions = {
 }
 
 
-export const COW_TOKEN_ADDRESS = "0x0d7A2204fcbEd77d411EB890f0058575d713505b";
-export const MOO_TOKEN_ADDRESS = "0x05C95cbF6D0D946303059893c92d1DFA0Bf9e82b";
+export const COW_TOKEN_ADDRESS = "0x7eF4392f8A54C3FE53a1F3627342f0FFED3EDd36";
+export const MOO_TOKEN_ADDRESS = "0xC77979C1C22cFb850f8413439DbE0d6D7C26c969";
+export const MARKETPLACE_ADDRESS = "0x56d582c37B4b32041cC5afcC78ec95Da451F876b"
 
-export const COW_IMG_URI = "http://localhost:8111/";
+export const COW_IMG_URI = "http://localhost:5173/cows/";
 
 const eip712Domain = {
     chainId: 22040,
     name: 'Moolah',
-    verifyingContract: '0x93549AD90A3a21941E16987A63D4fF26ccd1EA79',
+    verifyingContract: MARKETPLACE_ADDRESS,
     version: '1',
 }
 
