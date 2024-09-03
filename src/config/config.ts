@@ -74,9 +74,9 @@ export const eip712Params = {
 }
 
 
-// export const backendHttpUrl = "https://www.savagaysmall.pp.ua/";
-export const backendHttpUrl = "http://localhost:8000";
+export const backendHttpUrl = "https://www.savagaysmall.pp.ua/backend";
+// export const backendHttpUrl = "http://localhost:8000";
 
 
-// export const backendWsUrl = "wss://www.savagaysmall.pp.ua/ws";
-export const backendWsUrl = "ws://localhost:8000/ws";
+export const backendWsUrl = "wss://www.savagaysmall.pp.ua/ws";
+// export const backendWsUrl = "ws://localhost:8000/ws";
