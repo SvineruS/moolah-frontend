@@ -1,22 +1,6 @@
 import { useGame } from "../../../hooks/gameContext.ts";
 import { CowImg } from "../../../components/CowImg.tsx";
 
-function Cow({ cow }) {
-    const { constants } = useGame();
-
-    const cowStats = constants.cowStats[cow.id];
-    return <div>
-        <CowImg id={cow.id} />
-        CowID: {cow.id} <br/>
-        Cow Name: {cowStats.name} <br/>
-        Count: {cow.count} <br/>
-        MilkRate: {cowStats.milkRate} <br/>
-        BeefRate: {cowStats.beefRate} <br/>
-        FoodRate: {cowStats.foodRate} <br/>
-        <br/>
-        <br/>
-    </div>;
-}
 
 export default function Inv() {
     const { player } = useGame();
@@ -35,3 +19,19 @@ export default function Inv() {
     </div>
 }
 
+function Cow({ cow }) {
+  const { constants } = useGame();
+
+  const cowStats = constants.cowStats[cow.id];
+  return <div>
+    <CowImg id={cow.id} />
+    CowID: {cow.id} <br/>
+    Cow Name: {cowStats.name} <br/>
+    Count: {cow.count} <br/>
+    MilkRate: {cowStats.milkRate} <br/>
+    BeefRate: {cowStats.beefRate} <br/>
+    FoodRate: {cowStats.foodRate} <br/>
+    <br/>
+    <br/>
+  </div>;
+}

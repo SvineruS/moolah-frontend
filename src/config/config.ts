@@ -27,7 +27,7 @@ export const COW_TOKEN_ADDRESS = "0x7eF4392f8A54C3FE53a1F3627342f0FFED3EDd36";
 export const MOO_TOKEN_ADDRESS = "0xC77979C1C22cFb850f8413439DbE0d6D7C26c969";
 export const MARKETPLACE_ADDRESS = "0x56d582c37B4b32041cC5afcC78ec95Da451F876b"
 
-export const COW_IMG_URI = "http://localhost:5173/cows/";
+export const COW_IMG_URI = "/cows/";
 
 const eip712Domain = {
     chainId: 22040,
@@ -74,9 +74,10 @@ export const eip712Params = {
 }
 
 
-export const backendHttpUrl = "https://www.savagaysmall.pp.ua/backend";
+export const backendHttpUrl = "https://moolah-api.ambrosus-test.io";
+// export const backendHttpUrl = "https://www.savagaysmall.pp.ua/backend";
 // export const backendHttpUrl = "http://localhost:8000";
 
-
-export const backendWsUrl = "wss://www.savagaysmall.pp.ua/ws";
+export const backendWsUrl = "wss://moolah-api.ambrosus-test.io/ws";
+// export const backendWsUrl = "wss://www.savagaysmall.pp.ua/ws";
 // export const backendWsUrl = "ws://localhost:8000/ws";
