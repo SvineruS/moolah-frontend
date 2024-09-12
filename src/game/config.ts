@@ -74,10 +74,8 @@ export const eip712Params = {
 }
 
 
-export const backendHttpUrl = "https://moolah-api.ambrosus-test.io";
-// export const backendHttpUrl = "https://www.savagaysmall.pp.ua/backend";
-// export const backendHttpUrl = "http://localhost:8000";
+// export const backendHttpUrl = "https://moolah-api.ambrosus-test.io";
+export const backendHttpUrl = "http://localhost:8000";
 
-export const backendWsUrl = "wss://moolah-api.ambrosus-test.io/ws";
-// export const backendWsUrl = "wss://www.savagaysmall.pp.ua/ws";
-// export const backendWsUrl = "ws://localhost:8000/ws";
+// export const backendWsUrl = "wss://moolah-api.ambrosus-test.io/ws";
+export const backendWsUrl = "ws://localhost:8000/ws";

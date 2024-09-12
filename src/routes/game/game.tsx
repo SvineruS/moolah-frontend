@@ -3,7 +3,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import { GameContext, GameContextData } from '../../hooks/gameContext.ts';
 import { useWebSocket } from "../../hooks/gameWebsocket.ts";
 import { useState } from "react";
-import { GameRelay } from "../../backend/gameRelay.ts";
+import { GameActions } from "../../game/actions.ts";
 
 
 export default function GameHTML() {
@@ -11,7 +11,8 @@ export default function GameHTML() {
     const [game, setGame] = useState<GameContextData>({
         player: null,
         constants: null,
-        gameActions: new GameRelay(auth),
+        pastures: [],
+        gameActions: new GameActions(auth),
     });
     useWebSocket(auth, onMessage);
 

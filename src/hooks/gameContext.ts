@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 import { Constants, Pasture, Player } from "../types/game.ts";
-import { GameActions } from "../backend/gameRelay.ts";
+import { GameActions } from "../game/actions.ts";
 
 
 

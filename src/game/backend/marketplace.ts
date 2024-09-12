@@ -1,4 +1,4 @@
-import { AuctionBid, Order } from "../types/marketplace.ts";
+import { AuctionBid, Order } from "../../types/marketplace.ts";
 import { _backend } from "./_backend.ts";
 
 

@@ -1,4 +1,4 @@
-import { backendHttpUrl } from "../config/config.ts";
+import { backendHttpUrl } from "../config.ts";
 
 export async function _backend(url: string, data: any = {}) {
     const init: RequestInit = {

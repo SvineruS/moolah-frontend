@@ -1,9 +1,9 @@
 import { useSDK } from "@metamask/sdk-react";
 import { useState } from "react";
-import { submitOrder } from "../../backend/marketplace.ts";
+import { submitOrder } from "../../game/backend/marketplace.ts";
 import { generateRandomBytes, sign } from "./components/signature.ts";
 import InputOrderCows, { OrderCow } from "./components/InputOrderCows.tsx";
-import { COW_TOKEN_ADDRESS, MOO_TOKEN_ADDRESS } from "../../config/config.ts";
+import { COW_TOKEN_ADDRESS, MOO_TOKEN_ADDRESS } from "../../game/config.ts";
 import { Order, OrderItems } from "../../types/marketplace.ts";
 
 export type OrderType = "fixed-price" | "auction-quickbuy" | "auction";

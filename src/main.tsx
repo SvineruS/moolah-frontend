@@ -4,7 +4,7 @@ import { WebAppProvider } from "@vkruglikov/react-telegram-web-app";
 import { MetaMaskProvider } from '@metamask/sdk-react';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { sdkOptions, tgWebAppOptions } from "./config/config.ts";
+import { sdkOptions, tgWebAppOptions } from "./game/config.ts";
 
 import Root from "./routes/root.tsx";
 import Auth from "./routes/auth.tsx";

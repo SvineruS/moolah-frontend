@@ -1,4 +1,4 @@
-import { eip712Params } from "../../../config/config.ts";
+import { eip712Params } from "../../../game/config.ts";
 import { OrderItems } from "../../../types/marketplace.ts";
 
 

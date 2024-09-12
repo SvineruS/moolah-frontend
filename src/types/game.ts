@@ -3,16 +3,9 @@ export type Erc20Tokens = typeof erc20Tokens[number];
 
 export interface Player {
   address: string;
-
-  relayAddress: string;
-  relayAmbBalance?: number;
-
   balances: { [token in Erc20Tokens]: number }
-
   pastures: string[];
-
   cows: {id: number, count: number}[];
-
 }
 
 export interface Pasture {
@@ -39,6 +32,7 @@ export interface Pasture {
 export interface Constants {
   cowStats: CowStats[];
   pastureUpgrades: PastureUpgrades;
+  exchangerRecipes: ExchangerRecipes;
 }
 
 export interface PastureUpgrades {
@@ -52,6 +46,19 @@ export interface PastureUpgradeLevel {
   upgradePrice: number;
   cumulativePrice: number;
   value: number;
+}
+
+export interface ExchangerRecipes {
+  milk: ExchangerRecipe[];
+  beef: ExchangerRecipe[];
+}
+
+
+export interface ExchangerRecipe {
+  ingredientAmount: number;
+  time: number;
+  resultMooAmount: number;
+  name: string;
 }
 
 export interface CowStats {

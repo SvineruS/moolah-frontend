@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getOrders } from "../../backend/marketplace.ts";
+import { getOrders } from "../../game/backend/marketplace.ts";
 import { NavLink } from "react-router-dom";
 import { ShowOrderPreview } from "./components/Order.tsx";
 

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useInitData } from "@vkruglikov/react-telegram-web-app";
 import { useSDK } from "@metamask/sdk-react";
 import useAuth from "../hooks/auth.ts";
-import { airdaoTestnet } from "../config/config.ts";
+import { airdaoTestnet } from "../game/config.ts";
 
 
 export default function Auth() {

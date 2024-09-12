@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getOrder, submitBid } from "../../backend/marketplace.ts";
+import { getOrder, submitBid } from "../../game/backend/marketplace.ts";
 import { ShowOrderPreview } from "./components/Order.tsx";
 import { AuctionBid, Order, OrderItems, OrderWithId } from "../../types/marketplace.ts";
-import { MOO_TOKEN_ADDRESS } from "../../config/config.ts";
+import { MOO_TOKEN_ADDRESS } from "../../game/config.ts";
 import { generateRandomBytes, sign } from "./components/signature.ts";
 import { useSDK } from "@metamask/sdk-react";
 

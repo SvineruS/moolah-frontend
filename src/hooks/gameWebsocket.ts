@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { backendWsUrl } from "../config/config.ts";
+import { backendWsUrl } from "../game/config.ts";
 
 export function useWebSocket(auth?: string, onMessage?: (msg: any) => void) {
     const websocketRef = useRef<WebSocket | null>(null);
