@@ -1,5 +1,5 @@
 import { _backend } from "./backend/_backend.ts";
-import { encodeFunctionData } from "viem";
+import { Address, encodeFunctionData } from "viem";
 import { ACTIONS_ABI } from "./contracts/abi.ts";
 
 
@@ -7,26 +7,26 @@ export class GameActions {
   constructor(public auth: string) {
   }
 
-  register = async (referrer: string) =>
+  register = async (referrer: Address) =>
     this.action(await register(referrer));
 
   // note: can be only called by wallet, cos relay is not set yet!
-  setRelayer = async (relayer: string) =>
+  setRelayer = async (relayer: Address) =>
     this.action(await setRelayer(relayer));
 
-  addCows = async (pastureAddress: string, cowId: number, count: number) =>
+  addCows = async (pastureAddress: Address, cowId: bigint, count: bigint) =>
     this.action(await addCows(pastureAddress, cowId, count));
 
-  claimMilk = async (pastureAddress: string) =>
+  claimMilk = async (pastureAddress: Address) =>
     this.action(await claimMilk(pastureAddress));
 
-  feedCows = async (pastureAddress: string, count: number) =>
+  feedCows = async (pastureAddress: Address, count: bigint) =>
     this.action(await feedCows(pastureAddress, count));
 
-  useApple = async (pastureAddress: string) =>
+  useApple = async (pastureAddress: Address) =>
     this.action(await useApple(pastureAddress));
 
-  upgradePasture = async (pastureAddress: string, cowCapacity: number, milkCapacity: number, milkRateMultiplier: number) =>
+  upgradePasture = async (pastureAddress: Address, cowCapacity: bigint, milkCapacity: bigint, milkRateMultiplier: bigint) =>
     this.action(await upgradePasture(pastureAddress, cowCapacity, milkCapacity, milkRateMultiplier));
 
 
@@ -41,43 +41,43 @@ export class GameActions {
 
 
 
-const register = async (referrer: string) => encodeFunctionData({
+const register = async (referrer: Address) => encodeFunctionData({
   abi: ACTIONS_ABI,
   functionName: 'player_register',
   args: [referrer]
 });
 
-const setRelayer = async (relayer: string) => encodeFunctionData({
+const setRelayer = async (relayer: Address) => encodeFunctionData({
   abi: ACTIONS_ABI,
-  functionName: 'player_setRelayer',
+  functionName: 'metatx_setRelayer',
   args: [relayer]
 });
 
-const addCows = async (pastureAddress: string, cowId: number, count: number) => encodeFunctionData({
+const addCows = async (pastureAddress: Address, cowId: bigint, count: bigint) => encodeFunctionData({
   abi: ACTIONS_ABI,
   functionName: 'pasture_addCows',
   args: [pastureAddress, cowId, count]
 });
 
-const claimMilk = async (pastureAddress: string) => encodeFunctionData({
+const claimMilk = async (pastureAddress: Address) => encodeFunctionData({
   abi: ACTIONS_ABI,
   functionName: 'pasture_claimMilk',
   args: [pastureAddress]
 });
 
-const feedCows = async (pastureAddress: string, count: number) => encodeFunctionData({
+const feedCows = async (pastureAddress: Address, count: bigint) => encodeFunctionData({
   abi: ACTIONS_ABI,
   functionName: 'pasture_feedCows',
   args: [pastureAddress, count]
 });
 
-const useApple = async (pastureAddress: string) => encodeFunctionData({
+const useApple = async (pastureAddress: Address) => encodeFunctionData({
   abi: ACTIONS_ABI,
   functionName: 'pasture_useApple',
   args: [pastureAddress]
 });
 
-const upgradePasture = async (pastureAddress: string, cowCapacity: number, milkCapacity: number, milkRateMultiplier: number) => encodeFunctionData({
+const upgradePasture = async (pastureAddress: Address, cowCapacity: bigint, milkCapacity: bigint, milkRateMultiplier: bigint) => encodeFunctionData({
   abi: ACTIONS_ABI,
   functionName: 'pasture_upgrade',
   args: [pastureAddress, cowCapacity, milkCapacity, milkRateMultiplier]
