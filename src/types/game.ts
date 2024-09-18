@@ -2,55 +2,58 @@ export const erc20Tokens = ["milk", "beef", "moo", "hay", "apple"] as const;
 export type Erc20Tokens = typeof erc20Tokens[number];
 
 export interface Player {
-  address: string;
-  balances: { [token in Erc20Tokens]: number }
-  pastures: string[];
-  cows: {id: number, count: number}[];
+    isRegistered: boolean;
+    relayAddress: string;
+    address: string;
+    balances: { [token in Erc20Tokens]: number }
+    pastures: string[];
+    cows: {id: number, count: number}[];
 }
 
 export interface Pasture {
-  address: string;
-  owner: string;
+    address: string;
+    owner: string;
 
-  cowCapacityLevel: number;
-  milkCapacityLevel: number;
-  milkRateMultiplierLevel: number;
+    cowCapacityLevel: number;
+    milkCapacityLevel: number;
+    milkRateMultiplierLevel: number;
 
-  cowType: number;
-  cows: number;
+    cowType: number;
+    cows: number;
 
-  milkLastUpdate: number;
-  milkNotClaimed: number;
+    milkLastUpdate: number;
+    milkNotClaimed: number;
 
-  foodAtLastUpdate: number;
-  foodLastUpdate: number;
-  appleTime: number;
+    foodAtLastUpdate: number;
+    foodLastUpdate: number;
+    appleTime: number;
 
-  deathFromHungerTime: number;
+    deathFromHungerTime: number;
 }
 
 export interface Constants {
-  cowStats: CowStats[];
-  pastureUpgrades: PastureUpgrades;
-  exchangerRecipes: ExchangerRecipes;
+    cowStats: CowStats[];
+    pastureUpgrades: PastureUpgrades;
+    exchangerRecipes: ExchangerRecipes;
+    supplyCrates: SupplyCrateDay[];
 }
 
 export interface PastureUpgrades {
-  cowCapacity: PastureUpgradeLevel[];
-  milkCapacity: PastureUpgradeLevel[];
-  milkRateMultiplier: PastureUpgradeLevel[];
+    cowCapacity: PastureUpgradeLevel[];
+    milkCapacity: PastureUpgradeLevel[];
+    milkRateMultiplier: PastureUpgradeLevel[];
 }
 
 export interface PastureUpgradeLevel {
-  level: number;
-  upgradePrice: number;
-  cumulativePrice: number;
-  value: number;
+    level: number;
+    upgradePrice: number;
+    cumulativePrice: number;
+    value: number;
 }
 
 export interface ExchangerRecipes {
-  milk: ExchangerRecipe[];
-  beef: ExchangerRecipe[];
+    milk: ExchangerRecipe[];
+    beef: ExchangerRecipe[];
 }
 
 
@@ -61,11 +64,17 @@ export interface ExchangerRecipe {
   name: string;
 }
 
+export interface SupplyCrateDay {
+  hay: number;
+  apples: number;
+  mooTokens: number;
+}
+
 export interface CowStats {
-  id: number;
-  name: string;
-  milkRate: number;
-  beefRate: number;
-  foodRate: number;
+    id: number;
+    name: string;
+    milkRate: number;
+    beefRate: number;
+    foodRate: number;
 }
 

@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getOrder, submitBid } from "../../game/backend/marketplace.ts";
 import { ShowOrderPreview } from "./components/Order.tsx";
-import { AuctionBid, Order, OrderItems, OrderWithId } from "../../types/marketplace.ts";
+import { AuctionBid, Order, OrderItems } from "../../types/marketplace.ts";
 import { MOO_TOKEN_ADDRESS } from "../../game/config.ts";
 import { generateRandomBytes, sign } from "./components/signature.ts";
 import { useSDK } from "@metamask/sdk-react";
@@ -31,14 +31,14 @@ export default function ShowOrder() {
 }
 
 
-function MakeBid({ order }: {order: OrderWithId}) {
+function MakeBid({ order }: {order: Order}) {
     const [bidAmount, setBidAmount] = useState("0")
     const { sdk, provider, account } = useSDK();
 
     async function makeBid() {
         const bidItems: OrderItems = {
             erc20: [{ tokenAddress: MOO_TOKEN_ADDRESS, amount: +bidAmount }],
-            erc721: [], erc1155: [],
+            cows: [],
         }
         const auctionBid: AuctionBid = {
             bidder: account,

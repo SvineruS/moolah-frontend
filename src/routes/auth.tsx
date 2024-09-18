@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useInitData } from "@vkruglikov/react-telegram-web-app";
 import { useSDK } from "@metamask/sdk-react";
-import useAuth from "../hooks/auth.ts";
+import useStorage from "../hooks/auth.ts";
 import { airdaoTestnet } from "../game/config.ts";
 
 
 export default function Auth() {
-    const {auth, setAuth} = useAuth();
+    const [auth, setAuth] = useStorage("auth");
+    const [playerAddress, setPlayerAddress] = useStorage("playerAddress");
     const [initDataUnsafe, initData] = useInitData()
     const { sdk, connected, connecting, provider, chainId, account, balance } = useSDK();
 
@@ -15,6 +16,8 @@ export default function Auth() {
     const connect = async () => {
         try {
             await sdk?.connect();
+            setPlayerAddress(account);
+            console.log(playerAddress)
         } catch (err) {
             console.warn(`failed to connect..`, err);
         }

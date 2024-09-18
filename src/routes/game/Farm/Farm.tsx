@@ -10,8 +10,9 @@ import { CowImg } from "../../../components/CowImg.tsx";
 
 
 export default function Farm() {
-  const { pastures } = useGame()
+  const { player, pastures } = useGame()
 
+  if (!player.isRegistered) return <div>You are not registered! </div>
   // todo select pasture
   if (!pastures?.length) {
     return <div>
@@ -246,7 +247,7 @@ class PastureHelper {
   }
 
   foodCapacity() {
-    return 10_000;  // todo?
+    return 1_000_000;  // todo?
   }
 
   defaultMilkRate() {

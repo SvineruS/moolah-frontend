@@ -7,14 +7,19 @@ import { GameActions } from "../../game/actions.ts";
 
 
 export default function GameHTML() {
-    const {auth} = useAuth();
+    const [auth] = useAuth("auth");
+    const [playerAddress] = useAuth("playerAddress");
+
+    console.log("auth", auth);
+    console.log("playerAddress", playerAddress);
+
     const [game, setGame] = useState<GameContextData>({
         player: null,
         constants: null,
         pastures: [],
         gameActions: new GameActions(auth),
     });
-    useWebSocket(auth, onMessage);
+    useWebSocket(playerAddress, onMessage);
 
     function onMessage(msg) {
         console.log('onMessage', msg);

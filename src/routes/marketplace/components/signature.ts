@@ -2,8 +2,8 @@ import { eip712Params } from "../../../game/config.ts";
 import { OrderItems } from "../../../types/marketplace.ts";
 
 
-export async function sign(sdk: MetaMaskSDK, provider: SDKProvider, you: string, give: OrderItems, receive: OrderItems, salt: string) {
-    const orderToSign = {you, give, receive, salt};
+export async function sign(sdk: MetaMaskSDK, provider: SDKProvider, you: string, give: OrderItems, receive: OrderItems, salt: string, validUntil: number) {
+    const orderToSign = {you, give, receive, validUntil, salt};
     await sdk?.connect();
     return await send_eth_signTypedData_v4(provider!, orderToSign);
 }

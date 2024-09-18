@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
-export default function useAuth(key = 'auth') {
+export default function useAuth(key = 'auth'): [string, React.Dispatch<React.SetStateAction<string>>] {
     const [auth, setAuth] = useState(() => localStorage.getItem(key));
 
     useEffect(() => {
@@ -11,5 +11,5 @@ export default function useAuth(key = 'auth') {
         }
     }, [auth, key]);
 
-    return {auth, setAuth};
+    return [auth, setAuth];
 }

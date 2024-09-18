@@ -1,14 +1,14 @@
 import { useEffect, useRef } from 'react';
 import { backendWsUrl } from "../game/config.ts";
 
-export function useWebSocket(auth?: string, onMessage?: (msg: any) => void) {
+export function useWebSocket(playerAddress?: string, onMessage?: (msg: any) => void) {
     const websocketRef = useRef<WebSocket | null>(null);
 
     useEffect(() => {
-        if (auth == null || websocketRef.current != null) return;
+        if (playerAddress == null || websocketRef.current != null) return;
 
         const connectWebSocket = () => {
-            const url = `${backendWsUrl}?auth=${auth}`;
+            const url = `${backendWsUrl}?playerAddress=${playerAddress}`;
             const ws = new WebSocket(url);
             websocketRef.current = ws;
 
@@ -41,14 +41,14 @@ export function useWebSocket(auth?: string, onMessage?: (msg: any) => void) {
 
         };
 
-        console.log('useEffect setup', auth, backendWsUrl);
+        console.log('useEffect setup', playerAddress, backendWsUrl);
         connectWebSocket();
 
         return () => {
             console.log('useEffect cleanup');
             websocketRef.current?.close();
         };
-    }, [auth, backendWsUrl]);
+    }, [playerAddress, backendWsUrl]);
 
     return { websocket: websocketRef.current };
 }

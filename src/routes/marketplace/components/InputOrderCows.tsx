@@ -1,5 +1,5 @@
 export interface OrderCow {
-    tokenId: number;
+    cowId: number;
     amount: number;
 }
 
@@ -28,7 +28,7 @@ export default function InputOrderCows({ orderCows, setOrderCows }: {orderCows: 
 
                 {orderCows.map((item, index) => (
                     <div key={index}>
-                        <Input label={"Cow ID"} value={item.tokenId}
+                        <Input label={"Cow ID"} value={item.cowId}
                                setValue={(value) => handleArrayChange(index, 'tokenId', value)}/>
                         <Input label={"Amount"} value={item.amount}
                                setValue={(value) => handleArrayChange( index, 'amount', value)}/>
