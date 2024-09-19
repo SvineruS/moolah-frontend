@@ -15,6 +15,7 @@ import ShowOrder from "./routes/marketplace/ShowOrder.tsx";
 import AllOrders from "./routes/marketplace/AllOrders.tsx";
 import Farm from "./routes/game/Farm/Farm.tsx";
 import Inv from "./routes/game/Inventory/Inventory.tsx";
+import SupplyCrates from "./routes/game/SupplyCrates/index.tsx";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
                     {
                         path: "/game/inventory/",
                         element: <Inv/>,
+                    },
+                    {
+                        path: "/game/supplyCrates/",
+                        element: <SupplyCrates/>,
                     }
                 ]
             },

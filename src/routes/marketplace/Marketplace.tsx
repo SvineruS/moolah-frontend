@@ -19,7 +19,7 @@ export default function Marketplace() {
             <hr/>
 
             <>
-                <NavLink to="/marketplace" className={classNames}> All Orders </NavLink>
+                <NavLink to="/marketplace" className={classNames}> All Orders </NavLink>•
                 <NavLink to="/marketplace/create" className={classNames}> Create </NavLink>
 
                 <Outlet/>

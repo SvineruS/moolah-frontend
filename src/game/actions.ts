@@ -29,6 +29,7 @@ export class GameActions {
   upgradePasture = async (pastureAddress: Address, cowCapacity: bigint, milkCapacity: bigint, milkRateMultiplier: bigint) =>
     this.action(await upgradePasture(pastureAddress, cowCapacity, milkCapacity, milkRateMultiplier));
 
+  supplyCratesClaim = async () => this.action(await supplyCratesClaim());
 
   async action(calldata: string) {
     // todo: depending on user preferences, use backend OR send transaction via wallet
@@ -82,3 +83,11 @@ const upgradePasture = async (pastureAddress: Address, cowCapacity: bigint, milk
   functionName: 'pasture_upgrade',
   args: [pastureAddress, cowCapacity, milkCapacity, milkRateMultiplier]
 });
+
+const supplyCratesClaim = async () => encodeFunctionData({
+  abi: ACTIONS_ABI,
+  functionName: 'supplyCrates_claim',
+  args: []
+});
+
+

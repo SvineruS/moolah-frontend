@@ -7,8 +7,8 @@ export default function Root() {
 
     return (
       <>
-          <NavLink to="/auth" className={classNames}> Auth </NavLink>
-          <NavLink to="/game/farm" className={classNames}> Game </NavLink>
+          <NavLink to="/auth" className={classNames}> Auth </NavLink>•
+          <NavLink to="/game/farm" className={classNames}> Game </NavLink>•
           <NavLink to="/marketplace" className={classNames}> Marketplace </NavLink>
           <hr/>
           <Outlet/>

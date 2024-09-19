@@ -7,50 +7,51 @@ import { GameActions } from "../../game/actions.ts";
 
 
 export default function GameHTML() {
-    const [auth] = useAuth("auth");
-    const [playerAddress] = useAuth("playerAddress");
+  const [auth] = useAuth("auth");
+  const [playerAddress] = useAuth("playerAddress");
 
-    console.log("auth", auth);
-    console.log("playerAddress", playerAddress);
+  console.log("auth", auth);
+  console.log("playerAddress", playerAddress);
 
-    const [game, setGame] = useState<GameContextData>({
-        player: null,
-        constants: null,
-        pastures: [],
-        gameActions: new GameActions(auth),
-    });
-    useWebSocket(playerAddress, onMessage);
+  const [game, setGame] = useState<GameContextData>({
+    player: null,
+    constants: null,
+    pastures: [],
+    gameActions: new GameActions(auth),
+  });
+  useWebSocket(playerAddress, onMessage);
 
-    function onMessage(msg) {
-        console.log('onMessage', msg);
-        setGame((oldGame) => ({...oldGame, ...msg}));
-    }
+  function onMessage(msg) {
+    console.log('onMessage', msg);
+    setGame((oldGame) => ({ ...oldGame, ...msg }));
+  }
 
-    if (!game?.player) {
-        return <div>Loading...</div>
-    }
-    console.log(game?.player)
+  if (!game?.player) {
+    return <div>Loading...</div>
+  }
+  console.log(game?.player)
 
-    return (
-        <div>
-            <GameContext.Provider value={game}>
-                <Menu/>
-                <hr/>
-                <Outlet/>
-            </GameContext.Provider>
-        </div>
-    );
+  return (
+    <div>
+      <GameContext.Provider value={game}>
+        <Menu/>
+        <hr/>
+        <Outlet/>
+      </GameContext.Provider>
+    </div>
+  );
 }
 
 
 function Menu() {
-    const classNames = ({ isActive, isPending }) => isPending ? "pending" : isActive ? "active" : ""
+  const classNames = ({ isActive, isPending }) => isPending ? "pending" : isActive ? "active" : ""
 
-    return <div>
-        <NavLink to="/game/farm" className={classNames}> Farm </NavLink>
-        <NavLink to="/game/inventory" className={classNames}> Inventory </NavLink>
-        <NavLink to="/game/quests" className={classNames}> Quests </NavLink>
-    </div>
+  return <div>
+    <NavLink to="/game/farm" className={classNames}> Farm </NavLink>•
+    <NavLink to="/game/inventory" className={classNames}> Inventory </NavLink>•
+    <NavLink to="/game/supplyCrates" className={classNames}> Supply crates </NavLink>•
+    <NavLink to="/game/quests" className={classNames}> Quests </NavLink>
+  </div>
 }
 
 
