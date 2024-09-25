@@ -20,3 +20,10 @@ export async function getOrder(orderId: string) {
     return _backend("/marketplace/getOrder", { orderId })
 }
 
+export async function getRelay(data: { tgId?: number, playerAddress?: string}) {
+    return _backend("/game/getRelay", data)
+}
+
+export async function createRelay(data: { playerAddress: string, tgAuth: string }) {
+    return _backend("/game/createRelay", data)
+}

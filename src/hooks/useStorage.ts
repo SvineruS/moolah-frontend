@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export default function useAuth(key = 'auth'): [string, React.Dispatch<React.SetStateAction<string>>] {
+export default function useStorage(key = 'auth'): [string, React.Dispatch<React.SetStateAction<string>>] {
     const [auth, setAuth] = useState(() => localStorage.getItem(key));
 
     useEffect(() => {

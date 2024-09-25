@@ -7,7 +7,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { sdkOptions, tgWebAppOptions } from "./game/config.ts";
 
 import Root from "./routes/root.tsx";
-import Auth from "./routes/auth.tsx";
+import Auth from "./routes/auth/auth.tsx";
 import GameHTML from "./routes/game/game.tsx";
 import Marketplace from "./routes/marketplace/Marketplace.tsx";
 import CreateOrder from "./routes/marketplace/CreateOrder.tsx";
@@ -19,6 +19,7 @@ import SupplyCrates from "./routes/game/SupplyCrates/index.tsx";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
+import Exchange from "./routes/game/Exchange";
 
 
 const router = createBrowserRouter([
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
                     {
                         path: "/game/supplyCrates/",
                         element: <SupplyCrates/>,
+                    },
+                    {
+                        path: "/game/exchange",
+                        element: <Exchange/>,
                     }
                 ]
             },

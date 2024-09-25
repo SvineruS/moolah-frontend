@@ -7,9 +7,9 @@ export interface Player {
   address: string;
   balances: { [token in Erc20Tokens]: number }
   pastures: string[];
-  cows: { id: number, count: number }[];
+  cows: {id: number, count: number}[];
 
-  exchangerCrafts: ExchangerCrafts;
+  exchangerCrafts: ExchangerCraft[];
   supplyCrates: SupplyCratesStatus;
 
 
@@ -39,7 +39,7 @@ export interface Pasture {
 export interface Constants {
   cowStats: CowStats[];
   pastureUpgrades: PastureUpgrades;
-  exchangerRecipes: ExchangerRecipes;
+  exchangerRecipes: ExchangerRecipe[];
   supplyCrates: SupplyCrateDay[];
 }
 
@@ -56,23 +56,15 @@ export interface PastureUpgradeLevel {
   value: number;
 }
 
-export interface ExchangerRecipes {
-  milk: ExchangerRecipe[];
-  beef: ExchangerRecipe[];
-}
-
 export interface ExchangerRecipe {
+  id: number;
+  ingredientToken: string;
   ingredientAmount: number;
   time: number;
   resultMooAmount: number;
   name: string;
 }
 
-
-export interface ExchangerCrafts {
-  milk: ExchangerCraft,
-  beef: ExchangerCraft
-}
 
 export interface ExchangerCraft {
   recipeId: number;
@@ -81,6 +73,7 @@ export interface ExchangerCraft {
 
 
 export interface SupplyCrateDay {
+  day: number;
   hay: number;
   apples: number;
   mooTokens: number;

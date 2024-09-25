@@ -31,9 +31,12 @@ export class GameActions {
 
   supplyCratesClaim = async () => this.action(await supplyCratesClaim());
 
+  exchangeCraft = async (recipeIndex: number) => this.action(await exchangeCraft(recipeIndex));
+  exchangeClaim = async () => this.action(await exchangeClaim());
+
   async action(calldata: string) {
     // todo: depending on user preferences, use backend OR send transaction via wallet
-    return _backend("/game/forwardRequest", { auth: this.auth, calldata })
+    return _backend("/game/forwardRequest", { tgAuth: this.auth, calldata })
   }
 
 }
@@ -91,3 +94,15 @@ const supplyCratesClaim = async () => encodeFunctionData({
 });
 
 
+const exchangeCraft = async (recipeIndex: bigint) => encodeFunctionData({
+  abi: ACTIONS_ABI,
+  functionName: 'exchanger_craft',
+  args: [recipeIndex]
+});
+
+
+const exchangeClaim = async () => encodeFunctionData({
+  abi: ACTIONS_ABI,
+  functionName: 'exchanger_claim',
+  args: []
+});

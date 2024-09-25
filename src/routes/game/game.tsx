@@ -1,4 +1,4 @@
-import useAuth from "../../hooks/auth.ts";
+import useStorage from "../../hooks/useStorage.ts";
 import { NavLink, Outlet } from "react-router-dom";
 import { GameContext, GameContextData } from '../../hooks/gameContext.ts';
 import { useWebSocket } from "../../hooks/gameWebsocket.ts";
@@ -7,17 +7,17 @@ import { GameActions } from "../../game/actions.ts";
 
 
 export default function GameHTML() {
-  const [auth] = useAuth("auth");
-  const [playerAddress] = useAuth("playerAddress");
+  const [tgAuth] = useStorage("tgAuth");
+  const [playerAddress] = useStorage("playerAddress");
 
-  console.log("auth", auth);
+  console.log("tgAuth", tgAuth);
   console.log("playerAddress", playerAddress);
 
   const [game, setGame] = useState<GameContextData>({
     player: null,
     constants: null,
     pastures: [],
-    gameActions: new GameActions(auth),
+    gameActions: new GameActions(tgAuth),
   });
   useWebSocket(playerAddress, onMessage);
 
@@ -50,6 +50,7 @@ function Menu() {
     <NavLink to="/game/farm" className={classNames}> Farm </NavLink>•
     <NavLink to="/game/inventory" className={classNames}> Inventory </NavLink>•
     <NavLink to="/game/supplyCrates" className={classNames}> Supply crates </NavLink>•
+    <NavLink to="/game/exchange" className={classNames}> Exchange </NavLink>•
     <NavLink to="/game/quests" className={classNames}> Quests </NavLink>
   </div>
 }
