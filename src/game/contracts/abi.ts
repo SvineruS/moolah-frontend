@@ -1,4 +1,4 @@
-export const ACTIONS_ABI =  [
+export const ACTIONS_ABI = [
   {
     "inputs": [],
     "stateMutability": "nonpayable",
@@ -117,6 +117,19 @@ export const ACTIONS_ABI =  [
       }
     ],
     "name": "exchanger_craft",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "recipeId",
+        "type": "uint256"
+      }
+    ],
+    "name": "exchanger_skipAndClaim",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -276,6 +289,16 @@ export const ACTIONS_ABI =  [
         "internalType": "address",
         "name": "relayer",
         "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes",
+        "name": "idSign",
+        "type": "bytes"
       }
     ],
     "name": "metatx_setRelayer",

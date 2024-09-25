@@ -20,7 +20,7 @@ export const tgWebAppOptions = {
   smoothButtonsTransition: true,
 }
 
-
+export const ACTIONS_ADDRESS = "0xB11302c7e7C66C46879676E24E1b10B6Cb3cE2F0";
 export const MOO_TOKEN_ADDRESS = "0xC77979C1C22cFb850f8413439DbE0d6D7C26c969";
 export const MARKETPLACE_ADDRESS = "0x56d582c37B4b32041cC5afcC78ec95Da451F876b"
 

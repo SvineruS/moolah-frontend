@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { useInitData } from "@vkruglikov/react-telegram-web-app";
 import { useSDK } from "@metamask/sdk-react";
 import useStorage from "../../hooks/useStorage.ts";
-import { airdaoTestnet } from "../../game/config.ts";
+import { ACTIONS_ADDRESS, airdaoTestnet } from "../../game/config.ts";
 import { createRelay, getRelay } from "../../game/backend/marketplace.ts";
+import { setRelayer } from "../../game/actions.ts";
 
 
 export default function Auth() {
@@ -84,6 +85,7 @@ function Metamask() {
     <button onClick={addNetwork}> Add AirDao Testnet</button>
   </div>
 }
+
 function Telegram() {
   const [initDataUnsafe, initData] = useInitData()
 
@@ -94,6 +96,7 @@ function Telegram() {
     <pre>{initData}</pre>
   </div>
 }
+
 function AuthOverriding() {
   const [, initData] = useInitData()
   const { account } = useSDK();
@@ -136,6 +139,8 @@ function AuthOverriding() {
 }
 
 function BackendPermissions() {
+  const { provider } = useSDK();
+
   const [tgAuth] = useStorage("tgAuth");
   const [playerAddress] = useStorage("playerAddress");
 
@@ -145,14 +150,41 @@ function BackendPermissions() {
   const tgId = JSON.parse(tgAuth)?.user?.id;
 
 
+  const setRelay = async () => {
+    const { relayAddress, registerSign } = await createRelay({ tgAuth, playerAddress })
+    const calldata = await setRelayer(relayAddress, tgId, registerSign);
+
+    const transactionParameters = { to: ACTIONS_ADDRESS, from: playerAddress, data: calldata, };
+
+    try {
+      const txHash = (await provider?.request({
+        method: 'eth_sendTransaction',
+        params: [transactionParameters],
+      })) as string;
+      alert(txHash);
+    } catch (e) {
+      console.log(e);
+      alert(JSON.stringify(e));
+    }
+  };
+
 
   return <div>
     <h2>Backend permissions</h2>
     Using tg auth and player address from local storage (Auth overriding section)
     <br/><br/>
-    <button onClick={() => getRelay({tgId}).then(setResp).catch(alert)}>Get player info (by tg id)</button>
-    <button onClick={() => getRelay({playerAddress}).then(setResp).catch(alert)}>Get player info (by player address) </button>
-    <button onClick={() => createRelay({tgAuth, playerAddress}).then(setResp).catch(alert)}>Create relay (get info for metatx_setRelayer)</button>
+    <button onClick={() => getRelay({ tgId }).then(setResp).catch(alert)}>
+      Get player info (by tg id)
+    </button>
+    <button onClick={() => getRelay({ playerAddress }).then(setResp).catch(alert)}>
+      Get player info (by player address)
+    </button>
+    <button onClick={() => createRelay({ tgAuth, playerAddress }).then(setResp).catch(alert)}>
+      Get register info for `metatx_setRelayer`
+    </button>
+    <button onClick={setRelay}>Make `metatx_setRelayer` transaction</button>
+
+
     <pre>{JSON.stringify(resp)}</pre>
   </div>
 }

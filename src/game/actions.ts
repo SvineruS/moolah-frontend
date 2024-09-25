@@ -1,6 +1,7 @@
 import { _backend } from "./backend/_backend.ts";
 import { Address, encodeFunctionData } from "viem";
 import { ACTIONS_ABI } from "./contracts/abi.ts";
+import { SolidityBytes } from "abitype/src/abi.ts";
 
 
 export class GameActions {
@@ -51,10 +52,10 @@ const register = async (referrer: Address) => encodeFunctionData({
   args: [referrer]
 });
 
-const setRelayer = async (relayer: Address) => encodeFunctionData({
+export const setRelayer = async (relayer: Address, tgId: bigint, sign: SolidityBytes) => encodeFunctionData({
   abi: ACTIONS_ABI,
   functionName: 'metatx_setRelayer',
-  args: [relayer]
+  args: [relayer, tgId, sign]
 });
 
 const addCows = async (pastureAddress: Address, cowId: bigint, count: bigint) => encodeFunctionData({
