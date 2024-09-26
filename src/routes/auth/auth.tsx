@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useInitData } from "@vkruglikov/react-telegram-web-app";
 import { useSDK } from "@metamask/sdk-react";
 import useStorage from "../../hooks/useStorage.ts";
 import { ACTIONS_ADDRESS, airdaoTestnet } from "../../game/config.ts";
 import { createRelay, getRelay } from "../../game/backend/marketplace.ts";
-import { setRelayer } from "../../game/actions.ts";
+import { setRelayer } from "../../game/contracts/calldata.ts";
 
 
 export default function Auth() {
@@ -146,8 +146,8 @@ function BackendPermissions() {
 
   const [resp, setResp] = useState();
 
-
-  const tgId = JSON.parse(tgAuth)?.user?.id;
+  let tgId
+  try {  tgId = JSON.parse(tgAuth)?.user?.id; } catch (e) { }
 
 
   const setRelay = async () => {

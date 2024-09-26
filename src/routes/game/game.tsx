@@ -1,9 +1,10 @@
 import useStorage from "../../hooks/useStorage.ts";
 import { NavLink, Outlet } from "react-router-dom";
-import { GameContext, GameContextData } from '../../hooks/gameContext.ts';
+import { GameContext, GameContextData, useGame } from '../../hooks/gameContext.ts';
 import { useWebSocket } from "../../hooks/gameWebsocket.ts";
 import { useState } from "react";
 import { GameActions } from "../../game/actions.ts";
+import Button from "react-bootstrap/Button";
 
 
 export default function GameHTML() {
@@ -26,22 +27,33 @@ export default function GameHTML() {
     setGame((oldGame) => ({ ...oldGame, ...msg }));
   }
 
-  if (!game?.player) {
-    return <div>Loading...</div>
-  }
-  console.log(game?.player)
+  if (!game?.player) return <div>Loading...</div>
 
   return (
     <div>
       <GameContext.Provider value={game}>
-        <Menu/>
-        <hr/>
-        <Outlet/>
+        <GameContent/>
       </GameContext.Provider>
     </div>
   );
+
 }
 
+
+function GameContent() {
+  const {player} = useGame()
+
+  if (!player.isRegistered)
+    return <Register/>
+
+  return (
+    <div>
+      <Menu/>
+      <hr/>
+      <Outlet/>
+    </div>
+  );
+}
 
 function Menu() {
   const classNames = ({ isActive, isPending }) => isPending ? "pending" : isActive ? "active" : ""
@@ -56,3 +68,11 @@ function Menu() {
 }
 
 
+function Register() {
+  const {gameActions} = useGame()
+
+  return <div>
+    You are not registered!
+    <Button onClick={() => gameActions.register()}>Register!</Button>
+  </div>
+}

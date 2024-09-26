@@ -10,9 +10,8 @@ import { CowImg } from "../../../components/CowImg.tsx";
 
 
 export default function Farm() {
-  const { player, pastures } = useGame()
+  const { pastures } = useGame()
 
-  if (!player.isRegistered) return <div>You are not registered! </div>
   // todo select pasture
   if (!pastures?.length) {
     return <div>
