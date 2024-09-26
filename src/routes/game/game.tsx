@@ -27,6 +27,7 @@ export default function GameHTML() {
     setGame((oldGame) => ({ ...oldGame, ...msg }));
   }
 
+  console.log("game", game)
   if (!game?.player) return <div>Loading...</div>
 
   return (
