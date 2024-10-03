@@ -4,7 +4,6 @@ import { getOrder, submitBid } from "../../../game/backend/methods.ts";
 import { ShowOrderPreview } from "./components/Order.tsx";
 import { AuctionBid, ContractOrder, Order, OrderItems } from "../../../types/marketplace.ts";
 import { MOO_TOKEN_ADDRESS } from "../../../game/config.ts";
-import { generateRandomBytes } from "../../../game/utils.ts";
 import { useGame } from "../../../hooks/gameContext.ts";
 import Button from "react-bootstrap/Button";
 import { Form } from "react-bootstrap";
@@ -46,7 +45,7 @@ function FixedPriceBuy({ order }: { order: Order }) {
       seller: order.creator,
       sell: order.items,
       buy: order.quickBuy.items,
-      salt: order.quickBuy.salt,
+      salt: order.salt,
       validUntil: order.validUntil,
     };
 
@@ -75,7 +74,6 @@ function MakeBid({ order }: { order: Order }) {
       bidder: playerAddress,
       bid: {
         items: bidItems,
-        salt: generateRandomBytes(),
         signature: "",
       }
     }
@@ -85,7 +83,7 @@ function MakeBid({ order }: { order: Order }) {
       give: auctionBid.bid.items,
       receive: order.items,
       validUntil: order.validUntil,
-      salt: auctionBid.bid.salt,
+      salt: order.salt,
     }
 
     auctionBid.bid.signature = await gameActions.marketplaceSignOrder(orderToSign);
@@ -114,7 +112,7 @@ function Bids({ order }: { order: Order }) {
       sell: bid.bid.items,
       buy: order.items,
       validUntil: order.validUntil,
-      salt: bid.bid.salt,
+      salt: order.salt,
     }
     const result = await gameActions.marketplaceAcceptOrder(contractOrder, bid.bid.signature)
     console.log(result)

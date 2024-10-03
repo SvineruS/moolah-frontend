@@ -19,6 +19,7 @@ export default function CreateOrder() {
     const order: Order = {
       creator: playerAddress,
       items: orderItems,
+      salt: generateRandomBytes(),
       validUntil: orderValidUntil,
       isAuction: orderType == "auction-quickbuy" || orderType == "auction",
     }
@@ -29,7 +30,6 @@ export default function CreateOrder() {
       }
       order.quickBuy = {
         items: quickBuyItems,
-        salt: generateRandomBytes(),
         signature: "",
       }
 
@@ -38,7 +38,7 @@ export default function CreateOrder() {
         give: order.items,
         receive: order.quickBuy.items,
         validUntil: order.validUntil,
-        salt: order.quickBuy.salt,
+        salt: order.salt,
       }
 
       // order.quickBuy.signature = await sign(sdk, provider, orderToSign);  // by wallet

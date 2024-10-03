@@ -2,6 +2,7 @@ export interface Order {
   _id?: string
   creator: string;
   items: OrderItems;
+  salt: string;
   quickBuy?: QuickBuyableOrder;
   isAuction?: boolean;
   validUntil?: number;
@@ -15,7 +16,6 @@ export interface AuctionBid {
 
 export interface QuickBuyableOrder {
   items: OrderItems;
-  salt: string;
   signature: string;
 }
 
