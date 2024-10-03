@@ -5,6 +5,7 @@ import { GameActions } from "../game/actions.ts";
 
 
 export interface GameContextData {
+    playerAddress: string,
     player: Player,
     pastures: Pasture[],
     constants: Constants,

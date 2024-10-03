@@ -1,4 +1,3 @@
-
 export interface Order {
   _id?: string
   creator: string;
@@ -23,4 +22,21 @@ export interface QuickBuyableOrder {
 export interface OrderItems {
   erc20: {tokenAddress: string, amount: number}[];
   cows: {cowId: number, amount: number}[];
+}
+
+
+export interface ContractOrder {
+  seller: string;
+  sell: OrderItems;
+  buy: OrderItems;
+  validUntil: number;
+  salt: string;
+}
+
+export interface ContractOrderToSign {
+  you: string;
+  give: OrderItems;
+  receive: OrderItems;
+  validUntil: number;
+  salt: string;
 }

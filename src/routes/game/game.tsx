@@ -5,20 +5,23 @@ import { useWebSocket } from "../../hooks/gameWebsocket.ts";
 import { useState } from "react";
 import { GameActions } from "../../game/actions.ts";
 import Button from "react-bootstrap/Button";
+import { useSDK } from "@metamask/sdk-react";
 
 
 export default function GameHTML() {
   const [tgAuth] = useStorage("tgAuth");
   const [playerAddress] = useStorage("playerAddress");
+  const { provider } = useSDK();
 
   console.log("tgAuth", tgAuth);
   console.log("playerAddress", playerAddress);
 
   const [game, setGame] = useState<GameContextData>({
+    playerAddress,
     player: null,
     constants: null,
     pastures: [],
-    gameActions: new GameActions(tgAuth),
+    gameActions: new GameActions(tgAuth, provider),
   });
   useWebSocket(playerAddress, onMessage);
 
@@ -64,7 +67,9 @@ function Menu() {
     <NavLink to="/game/inventory" className={classNames}> Inventory </NavLink>•
     <NavLink to="/game/supplyCrates" className={classNames}> Supply crates </NavLink>•
     <NavLink to="/game/exchange" className={classNames}> Exchange </NavLink>•
-    <NavLink to="/game/quests" className={classNames}> Quests </NavLink>
+    <NavLink to="/game/quests" className={classNames}> Quests </NavLink>•
+    <NavLink to="/game/marketplace" className={classNames}> Marketplace </NavLink>
+
   </div>
 }
 

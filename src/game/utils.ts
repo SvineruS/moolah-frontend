@@ -1,12 +1,27 @@
-import { eip712Params } from "../../../game/config.ts";
-import { OrderItems } from "../../../types/marketplace.ts";
+import { ACTIONS_ADDRESS, eip712Params } from "./config.ts";
+import { ContractOrderToSign } from "../types/marketplace.ts";
+import { SDKProvider } from "@metamask/sdk";
 
 
-export async function sign(sdk: MetaMaskSDK, provider: SDKProvider, you: string, give: OrderItems, receive: OrderItems, salt: string, validUntil: number) {
-    const orderToSign = {you, give, receive, validUntil, salt};
-    await sdk?.connect();
+export async function walletSignOrder(provider: SDKProvider, orderToSign: ContractOrderToSign) {
+    // await sdk?.connect();
     return await send_eth_signTypedData_v4(provider!, orderToSign);
 }
+
+export async function walletSendAction(provider: SDKProvider, calldata: string) {
+  return await provider.request({
+    method: 'eth_sendTransaction',
+    params: [{
+      to: ACTIONS_ADDRESS,
+      from: provider.getSelectedAddress(),
+      value: '0',
+      calldata
+    }],
+  });
+}
+
+
+
 
 const send_eth_signTypedData_v4 = async (provider: any, message: any) => {
     const msgParams = JSON.stringify({ ...eip712Params, message });

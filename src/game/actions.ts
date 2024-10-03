@@ -1,9 +1,16 @@
 import { _backend } from "./backend/_backend.ts";
 import { Address } from "viem";
 import * as calldata from "./contracts/calldata.ts";
+import { ContractOrderToSign } from "../types/marketplace.ts";
+import { walletSendAction, walletSignOrder } from "./utils.ts";
+import { SDKProvider } from "@metamask/sdk";
 
 export class GameActions {
-  constructor(public auth: string) {
+  constructor(
+    public tgAuth: string,
+    public walletProvider: SDKProvider,
+    public useTg = true,
+  ) {
   }
 
   register = async (referrer: Address = "0x0000000000000000000000000000000000000000") =>
@@ -33,9 +40,22 @@ export class GameActions {
   exchangeCraft = async (recipeIndex: number) => this.action(await calldata.exchangeCraft(recipeIndex));
   exchangeClaim = async () => this.action(await calldata.exchangeClaim());
 
+  marketplaceSignOrder = async (order: ContractOrderToSign) => {
+    if (this.useTg) {
+      const { signature } = await _backend("/metatx/marketplaceSignOrder", { tgAuth: this.tgAuth, order })
+      return signature;
+    }
+    return walletSignOrder(this.walletProvider, order);
+  }
+
+
   async action(calldata: string) {
     // todo: depending on user preferences, use backend OR send transaction via wallet
-    return _backend("/game/forwardRequest", { tgAuth: this.auth, calldata })
+    if (this.useTg)
+      return _backend("/game/forwardRequest", { tgAuth: this.tgAuth, calldata })
+
+    return walletSendAction(this.walletProvider, calldata);
+
   }
 
 }

@@ -1,4 +1,4 @@
-import { AuctionBid, Order } from "../../types/marketplace.ts";
+import { AuctionBid, ContractOrderToSign, Order } from "../../types/marketplace.ts";
 import { _backend } from "./_backend.ts";
 
 
@@ -21,9 +21,13 @@ export async function getOrder(orderId: string) {
 }
 
 export async function getRelay(data: { tgId?: number, playerAddress?: string}) {
-    return _backend("/game/getRelay", data)
+    return _backend("/metatx/getRelay", data)
 }
 
 export async function createRelay(data: { playerAddress: string, tgAuth: string }) {
-    return _backend("/game/createRelay", data)
+    return _backend("/metatx/createRelay", data)
+}
+
+export async function marketplaceSignOrder(data: { tgAuth: string, order: ContractOrderToSign }) {
+  return _backend("/metatx/marketplaceSignOrder", data)
 }
