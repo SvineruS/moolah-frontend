@@ -3,7 +3,7 @@ import { useInitData } from "@vkruglikov/react-telegram-web-app";
 import { useSDK } from "@metamask/sdk-react";
 import useStorage from "../../hooks/useStorage.ts";
 import { ACTIONS_ADDRESS, airdaoTestnet } from "../../game/config.ts";
-import { createRelay, getRelay } from "../../game/backend/marketplace.ts";
+import { createRelay, getRelay } from "../../game/backend/methods.ts";
 import { setRelayer } from "../../game/contracts/calldata.ts";
 
 

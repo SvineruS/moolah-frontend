@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { submitOrder } from "../../../game/backend/marketplace.ts";
+import { submitOrder } from "../../../game/backend/methods.ts";
 import InputOrderCows, { OrderCow } from "./components/InputOrderCows.tsx";
 import { MOO_TOKEN_ADDRESS } from "../../../game/config.ts";
 import { ContractOrderToSign, Order, OrderItems } from "../../../types/marketplace.ts";

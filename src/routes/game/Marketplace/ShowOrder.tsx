@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getOrder, submitBid } from "../../../game/backend/marketplace.ts";
+import { getOrder, submitBid } from "../../../game/backend/methods.ts";
 import { ShowOrderPreview } from "./components/Order.tsx";
 import { AuctionBid, ContractOrder, Order, OrderItems } from "../../../types/marketplace.ts";
 import { MOO_TOKEN_ADDRESS } from "../../../game/config.ts";
@@ -39,8 +39,9 @@ export default function ShowOrder() {
 }
 
 function FixedPriceBuy({ order }: { order: Order }) {
+  const { gameActions } = useGame();
 
-  function buy() {
+  async function buy() {
     const contractOrder: ContractOrder = {
       seller: order.creator,
       sell: order.items,
@@ -48,7 +49,10 @@ function FixedPriceBuy({ order }: { order: Order }) {
       salt: order.quickBuy.salt,
       validUntil: order.validUntil,
     };
-    console.log(contractOrder)
+
+    const result = await gameActions.marketplaceAcceptOrder(contractOrder, order.quickBuy.signature)
+    console.log(result)
+    alert(JSON.stringify(result));
   }
 
   return <div>
@@ -100,17 +104,30 @@ function MakeBid({ order }: { order: Order }) {
   </div>
 }
 
-function Bids({order}: {order: Order}) {
-  const {gameActions, playerAddress} = useGame();
+function Bids({ order }: { order: Order }) {
+  const { gameActions, playerAddress } = useGame();
   const canAccept = order.creator == playerAddress;
+
+  async function acceptBid(bid: AuctionBid) {
+    const contractOrder: ContractOrder = {
+      seller: bid.bidder,
+      sell: bid.bid.items,
+      buy: order.items,
+      validUntil: order.validUntil,
+      salt: bid.bid.salt,
+    }
+    const result = await gameActions.marketplaceAcceptOrder(contractOrder, bid.bid.signature)
+    console.log(result)
+    alert(JSON.stringify(result));
+  }
 
   return <div>
     <h3>Bids</h3>
-    {order.bids.map(bid =>
-      <div className={"m-2"}>
+    {order.bids.map((bid, i) =>
+      <div className={"m-2"} key={i}>
         Bidder: {bid.bidder} <br/>
         Amount: {bid.bid.items.erc20[0].amount} $MOO
-        {canAccept && <}
+        {canAccept && <Button variant={"success"} onClick={() => acceptBid(bid)}>Accept</Button>}
       </div>
     )}
   </div>

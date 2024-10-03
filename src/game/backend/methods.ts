@@ -28,6 +28,10 @@ export async function createRelay(data: { playerAddress: string, tgAuth: string 
     return _backend("/metatx/createRelay", data)
 }
 
+export async function forwardRequest(data: { tgAuth: string, calldata: string }) {
+    return _backend("/metatx/forwardRequest", data)
+}
+
 export async function marketplaceSignOrder(data: { tgAuth: string, order: ContractOrderToSign }) {
   return _backend("/metatx/marketplaceSignOrder", data)
 }
