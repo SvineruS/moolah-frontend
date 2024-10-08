@@ -1,6 +1,5 @@
-import { AuctionBid, ContractOrderToSign, Order } from "../../types/marketplace.ts";
+import { AuctionBid, ContractOrder, Order } from "../../types/marketplace.ts";
 import { _backend } from "./_backend.ts";
-
 
 
 export async function submitOrder(order: Order) {
@@ -32,6 +31,6 @@ export async function forwardRequest(data: { tgAuth: string, calldata: string })
     return _backend("/metatx/forwardRequest", data)
 }
 
-export async function marketplaceSignOrder(data: { tgAuth: string, order: ContractOrderToSign }) {
+export async function marketplaceSignOrder(data: { tgAuth: string, order: ContractOrder }) {
   return _backend("/metatx/marketplaceSignOrder", data)
 }

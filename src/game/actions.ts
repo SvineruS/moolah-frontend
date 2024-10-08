@@ -1,6 +1,6 @@
 import { Address } from "viem";
 import * as calldata from "./contracts/calldata.ts";
-import { ContractOrder, ContractOrderToSign } from "../types/marketplace.ts";
+import { ContractOrder } from "../types/marketplace.ts";
 import { walletSendAction, walletSignOrder } from "./utils.ts";
 import { SDKProvider } from "@metamask/sdk";
 import { forwardRequest, marketplaceSignOrder } from "./backend/methods.ts";
@@ -41,7 +41,7 @@ export class GameActions {
 
   exchangeClaim = async () => this.action(calldata.exchangeClaim());
 
-  marketplaceSignOrder = async (order: ContractOrderToSign) => {
+  marketplaceSignOrder = async (order: ContractOrder) => {
     if (this.useTg) {
       const { signature } = await marketplaceSignOrder({ tgAuth: this.tgAuth, order })
       return signature;

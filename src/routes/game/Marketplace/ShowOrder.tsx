@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getOrder, submitBid } from "../../../game/backend/methods.ts";
-import { ShowOrderPreview } from "./components/Order.tsx";
-import { AuctionBid, ContractOrder, Order, OrderItems } from "../../../types/marketplace.ts";
+import { ShowOrderItems } from "./components/OrderItems.tsx";
+import { AuctionBid, ContractOrder, Order } from "../../../types/marketplace.ts";
 import { MOO_TOKEN_ADDRESS } from "../../../game/config.ts";
 import { useGame } from "../../../hooks/gameContext.ts";
 import Button from "react-bootstrap/Button";
@@ -24,15 +24,15 @@ export default function ShowOrder() {
   return (
     <div>
       <h2>Order {orderId}</h2>
-      <ShowOrderPreview order={order}/>
+      Seller: {order.creator} <br/>
+      Sell: <ShowOrderItems orderItems={order.items}/><br/>
+
       {order.quickBuy && <FixedPriceBuy order={order}/>}
-      {order.isAuction &&
-        <>
-          <MakeBid order={order}/>
-          <hr/>
-          <Bids order={order}/>
-        </>
-      }
+      {order.isAuction && <>
+        <MakeBid order={order}/>
+        <hr/>
+        <Bids order={order}/>
+      </>}
     </div>
   );
 }
@@ -56,6 +56,7 @@ function FixedPriceBuy({ order }: { order: Order }) {
 
   return <div>
     <h3>Quick Buy</h3>
+    Price: {order.quickBuy.items.erc20[0].amount} $MOO <br/>
     <Button onClick={buy}>Buy</Button>
   </div>
 }
@@ -66,27 +67,25 @@ function MakeBid({ order }: { order: Order }) {
   const { gameActions, playerAddress } = useGame()
 
   async function makeBid() {
-    const bidItems: OrderItems = {
-      erc20: [{ tokenAddress: MOO_TOKEN_ADDRESS, amount: +bidAmount }],
-      cows: [],
-    }
     const auctionBid: AuctionBid = {
       bidder: playerAddress,
       bid: {
-        items: bidItems,
+        items: {
+          erc20: [{ tokenAddress: MOO_TOKEN_ADDRESS, amount: +bidAmount }],
+          cows: [],
+        },
         signature: "",
       }
     }
 
-    const orderToSign = {
-      you: auctionBid.bidder,
-      give: auctionBid.bid.items,
-      receive: order.items,
+    const contractOrder = {
+      seller: auctionBid.bidder,
+      sell: auctionBid.bid.items,
+      buy: order.items,
       validUntil: order.validUntil,
       salt: order.salt,
     }
-
-    auctionBid.bid.signature = await gameActions.marketplaceSignOrder(orderToSign);
+    auctionBid.bid.signature = await gameActions.marketplaceSignOrder(contractOrder);
 
     const result = await submitBid(order._id, auctionBid);
     console.log(result);

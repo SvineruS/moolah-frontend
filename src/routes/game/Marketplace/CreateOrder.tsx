@@ -2,7 +2,7 @@ import { useState } from "react";
 import { submitOrder } from "../../../game/backend/methods.ts";
 import InputOrderCows, { OrderCow } from "./components/InputOrderCows.tsx";
 import { MOO_TOKEN_ADDRESS } from "../../../game/config.ts";
-import { ContractOrderToSign, Order, OrderItems } from "../../../types/marketplace.ts";
+import { Order } from "../../../types/marketplace.ts";
 import { useGame } from "../../../hooks/gameContext.ts";
 import { generateRandomBytes } from "../../../game/utils.ts";
 import Button from "react-bootstrap/Button";
@@ -15,34 +15,28 @@ export default function CreateOrder() {
   const { gameActions, playerAddress } = useGame()
 
   async function createOrder(orderType: OrderType, orderCows: OrderCow[], orderPriceMoo: string, orderValidUntil: number) {
-    const orderItems: OrderItems = { erc20: [], cows: orderCows };
     const order: Order = {
       creator: playerAddress,
-      items: orderItems,
+      items: { erc20: [], cows: orderCows },
       salt: generateRandomBytes(),
       validUntil: orderValidUntil,
       isAuction: orderType == "auction-quickbuy" || orderType == "auction",
     }
+
     if (orderType === "fixed-price" || orderType == "auction-quickbuy") {
-      const quickBuyItems: OrderItems = {
-        erc20: [{ tokenAddress: MOO_TOKEN_ADDRESS, amount: +orderPriceMoo }],
-        cows: [],
-      }
       order.quickBuy = {
-        items: quickBuyItems,
+        items: { erc20: [{ tokenAddress: MOO_TOKEN_ADDRESS, amount: +orderPriceMoo }], cows: [] },
         signature: "",
       }
 
-      const orderToSign: ContractOrderToSign = {
-        you: order.creator,
-        give: order.items,
-        receive: order.quickBuy.items,
+      const contractOrder = {
+        seller: order.creator,
+        sell: order.items,
+        buy: order.quickBuy.items,
         validUntil: order.validUntil,
         salt: order.salt,
       }
-
-      // order.quickBuy.signature = await sign(sdk, provider, orderToSign);  // by wallet
-      order.quickBuy.signature = await gameActions.marketplaceSignOrder(orderToSign);  // by backend
+      order.quickBuy.signature = await gameActions.marketplaceSignOrder(contractOrder);
     }
 
     console.log(order)
